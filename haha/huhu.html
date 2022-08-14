@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>直接开摆吧</title>
+    
+    <style> 
+        body,html{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            background-image: url("888.jpeg");
+
+background-size:cover ;
+        }
+       .button {
+            background: white;
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+
+            
+          
+            
+            
+        }
+    </style>
+ 
+</head>
+<body>
+    <script>
+        //获取屏幕宽高
+        var windowWidth = window.screen.width;
+        var windowHeight = window.screen.height;
+        var click=0;
+       
+ 
+        //创建雪花
+        function createSnow(){
+            var left = 0;
+            var top = 0;
+ 
+            //定义一个初始化随机数,使雪花在屏幕中
+            var left_random = Math.random() * windowWidth;
+            var top_random = Math.random()* windowHeight;
+            var div = document.createElement('div');
+            div.className = 'button';
+            div.style.transform = 'scale('+(Math.random())+')'
+ 
+            document.body.appendChild(div);
+            div.onclick=function(){
+
+              click=click+1;
+              if(click<=1){
+              alert('欢迎来到我的世界，你将得到关于这里的秘密');}
+              else{
+                var c=Math.random()*10;
+                if(c<=1){alert('今运气不错呦');         }
+                if(c>=2&&c<=3){alert('估计你比较倒霉吧今');}
+                if(c>=3&&c<=4){alert('已被诅咒，快点磕头');}
+                if(c>=4&&c<=5){alert('彩蛋：我的秘密是：我其实不喜欢女的，我喜欢美女加富婆');}
+                if(c>=5&&c<=6){alert('敲个这代码真头大');}
+                if(c>=6&&c<=7){alert('有缘人啊咱俩');}
+                if(c>=7&&c<=8){alert('分享一个我的秘密，我其实是天才');}
+                if(c>=8&&c<=9){alert('末日快到了');}
+                if(c>=9&&c<=10){alert('不说了，今天适合直接摆烂');}
+                
+
+
+
+
+              }
+            }
+ 
+            //雪花飘落
+            setInterval(function () {
+ 
+                div.style.left = left_random + left +'px';
+                div.style.top = top_random + top +'px'
+                left += 0.2;
+                top += 0.2;
+ 
+                //如果雪花跑到屏幕外面了,让雪花重新返回屏幕顶部
+                if(left_random + left >= windowWidth){
+                    left_random = Math.random();
+                    left = 0;
+                }
+ 
+                if(top_random + top >= windowHeight){
+                    top_random = Math.random();
+                    top = 0;
+                }
+            },10)
+ 
+        }
+        for(var i = 0 ; i < 200 ; i++){
+            createSnow()
+        }
+    </script>
+</body>
+</html>
