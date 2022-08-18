@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>直接开摆吧</title>
+    
+    <style> 
+        body,html{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            height: 100%;
+            background:url("7878.jpg");
+
+            background-size:cover ;
+        }
+       .button {
+            
+            background-image: url("963.png") ;
+            background-size: 100% 100%;
+            
+            position: absolute;
+            width: 30px;
+            height: 30px;
+
+           
+            
+
+    
+          
+            
+            
+        }
+    </style>
+ 
+</head>
+<body>
+    <script>
+        //获取屏幕宽高
+        var windowWidth = window.screen.width;
+        var windowHeight = window.screen.height;
+        var click=0;
+       
+ 
+        //创建雪花
+        function createSnow(){
+            var nnn =0;
+            var left = 0;
+            var top = 0;
+            var ccc = 0;
+            var ddd =Math.random()*30 ;
+ 
+            //定义一个初始化随机数,使雪花在屏幕中
+            var left_random = Math.random() * windowWidth;
+            var top_random = Math.random()* windowHeight;
+            var div = document.createElement('div');
+            div.className = 'button';
+            div.style.transform = 'scale('+(Math.random())+')';
+            div.style.width=ddd+"px"
+            div.style.height=ddd+"px"
+            nnn=nnn+1;
+            //div.style.backgroundImage="url(999.jpg)";
+         
+            
+ 
+            document.body.appendChild(div);
+            //div.style.backgroundImage="url(999.jpg)";
+            
+
+            div.onclick=function(){
+
+              click=click+1;
+              if(click<=1){
+              alert('欢迎来到我的世界，你将得到关于雪花的语言');}
+              else{
+                var c=Math.random()*10;
+                if(c<=1){alert('你喜欢胡思乱想吗？');         }
+                if(c>=2&&c<=3){alert('你是摆烂王吗？');}
+                if(c>=3&&c<=4){alert('你是痴迷于什么的奴隶？');}
+                if(c>=4&&c<=5){alert('彩蛋：我的秘密是：想多了，我没有秘密');}
+                if(c>=5&&c<=6){alert('还好吧，至少是心情');}
+                if(c>=6&&c<=7){alert('又是看小丑胡扯八道的一天');}
+                if(c>=7&&c<=8){alert('我感觉什么都不当回事的人最天才，应该不是我');}
+                if(c>=8&&c<=9){alert('你喜欢作吗？');}
+                if(c>=9&&c<=10){
+                    
+                    
+
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    alert('不说了，今天适合直接摆烂和什么都不放心上');}
+                
+
+
+
+
+              }
+            }
+ 
+            //雪花飘落
+            setInterval(function () {
+ 
+                div.style.left = left_random + left +'px';
+                div.style.top = top_random + top +'px'
+                div.style.transform = 'rotate(' + ccc + 'deg)';
+                
+                left += 0.5;
+                top += 0.5;
+                ccc += 0.5;
+ 
+                //如果雪花跑到屏幕外面了,让雪花重新返回屏幕顶部
+                if(left_random + left >= windowWidth){
+                    left_random = Math.random();
+                    left = 0;
+                  //  div.style.transform = 'scale('+(Math.random())+')';
+                }
+ 
+                if(top_random + top >= windowHeight){
+                    top_random = Math.random();
+                    top = 0;
+                   // div.style.transform = 'scale('+(Math.random())+')';
+                }
+            },10)
+ 
+        }
+       
+        function timemanger(){
+            for(var i = 0 ; i < 50 ; i++){
+            createSnow()
+        }
+        }
+      //  for(var i = 0 ; i < 50 ; i++){
+           // createSnow()
+       // }
+
+
+
+         var interval2= window.setInterval(createSnow,300);
+
+         setTimeout(function() {window.clearInterval(interval2);},33000);
+       
+            
+       
+        
+
+    </script>
+</body>
+</html>
