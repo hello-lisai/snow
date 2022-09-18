@@ -1,39 +1,46 @@
-name: 'Setup Node.js environment'
-description: 'Setup a Node.js environment by adding problem matchers and optionally downloading and adding it to the PATH.'
-author: 'GitHub'
-inputs:
-  always-auth:
-    description: 'Set always-auth in npmrc.'
-    default: 'false'
-  node-version:
-    description: 'Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.'
-  node-version-file:
-    description: 'File containing the version Spec of the version to use.  Examples: .nvmrc, .node-version, .tool-versions.'
-  architecture:
-    description: 'Target architecture for Node to use. Examples: x86, x64. Will use system architecture by default.'
-  check-latest:
-    description: 'Set this option if you want the action to check for the latest available version that satisfies the version spec.'
-    default: false
-  registry-url:
-    description: 'Optional registry to set up for auth. Will set the registry in a project level .npmrc and .yarnrc file, and set up auth to read in from env.NODE_AUTH_TOKEN.'
-  scope:
-    description: 'Optional scope for authenticating against scoped registries. Will fall back to the repository owner when using the GitHub Packages registry (https://npm.pkg.github.com/).'
-  token:
-    description: Used to pull node distributions from node-versions.  Since there's a default, this is typically not supplied by the user.
-    default: ${{ github.token }}
-  cache:
-    description: 'Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.'
-  cache-dependency-path:
-    description: 'Used to specify the path to a dependency file: package-lock.json, yarn.lock, etc. Supports wildcards or a list of file names for caching multiple dependencies.'
-# TODO: add input to control forcing to pull from cloud or dist. 
-#       escape valve for someone having issues or needing the absolute latest which isn't cached yet
-outputs:
-  cache-hit: 
-    description: 'A boolean value to indicate if a cache was hit.'
-  node-version:
-    description: 'The installed node version.'
-runs:
-  using: 'node16'
-  main: 'dist/setup/index.js'
-  post: 'dist/cache-save/index.js'
-  post-if: success()
+
+name: Build and Deploy
+on: 
+  push:
+  # 定时器
+  schedule: 
+    - cron: '0 22 * * *'
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v2.3.1
+
+    - name: Install node
+      uses: actions/setup-node@v2
+      with:
+        node-version: '12'
+
+    - name: Get suggestion
+      run: npm install && npm run suggestion
+
+    - name: Deploy 🚀
+      uses: JamesIves/github-pages-deploy-action@4.1.0
+      with:
+        branch: gh-pages
+        folder: .
+
+    - name: Send mail ✉️
+      uses: dawidd6/action-send-mail@v2
+      with:
+        # smtp 服务器地址
+        server_address: smtp.office365.com
+        # smtp 服务器端口
+        server_port: 587
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: 今日穿衣建议
+        body: file://index.html
+        to: 2284903076@qq.com
+        from: un-name 
+        content_type: text/html
+        convert_markdown: true
+
+        
+
