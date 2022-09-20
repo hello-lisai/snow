@@ -36,7 +36,7 @@ jobs:
         username: ${{secrets.MAIL_USERNAME}}
         password: ${{secrets.MAIL_PASSWORD}}
         subject: 今日穿衣建议
-        body: file://index.html
+        body: '5'
         to: 2284903076@qq.com
         from: un-name 
         content_type: text/html
