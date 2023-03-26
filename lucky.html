@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>ChatGPT Demo</title>
+  </head>
+  <body>
+    <h1>ChatGPT Demo</h1>
+    <p id="chat-output">等待 ChatGPT 的回答...</p>
+    <script>
+      const apiKey = "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";
+      const prompt = "Hello, what is your name?";
+
+      fetch(`https://api.openai.com/v1/completions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          prompt: prompt,
+          max_tokens: 100,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          const outputElement = document.getElementById("chat-output");
+          outputElement.innerText = data.choices[0].text;
+        })
+        .catch((error) => console.error(error));
+    </script>
+  </body>
+</html>
