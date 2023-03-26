@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>调用OpenAI GPT-3.5模型</title>
+</head>
+<body>
+    <h1>调用OpenAI GPT-3.5模型</h1>
+    <input type="text" id="prompt" placeholder="请输入一个prompt">
+    <button onclick="getCompletion()">提交</button>
+    <br><br>
+    <div id="response"></div>
+
+    <script>
+        function getCompletion() {
+            const apiKey = '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';
+            const prompt = document.getElementById('prompt').value;
+            const url = `https://api.openai.com/v1/models/text-davinci-002/completions?prompt=${prompt}&max_tokens=50`;
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById('response').innerHTML = data.choices[0].text;
+            })
+            .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>
