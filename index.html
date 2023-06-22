@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LS塔罗</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+	body {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+
+			background-color:#7dcafd;
+			margin: 0;
+			padding: 0;
+		}
+    #text {
+      text-align: center;
+      margin-top: 30px;
+    }
+    #button {
+		margin: 20px;
+background-color:#aeef4d;
+border: none;
+border-radius: 10px;
+padding: 10px 20px;
+box-shadow: 2px 2px #000000;
+    }
+    #disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+   <script>
+   // var texts = ["Hello, world!", "This is a new line.", "And this is another line."];
+   var texts = [
+				"正位愚人牌，代表未知和不确定，不过心情是愉悦的，快乐的，很愿意尝试，期待未来。",
+				"逆位愚人牌，代表失去信心，悲观消极，恐惧未知事物，但是未来是不确定，需要安心",
+				"正位魔术师，代表创造力，有想法，可以试试",
+				"逆位魔术师，代表没有办法和无奈，需要安慰",
+				"正位女教皇，代表洞察到了一些秘密，但是没有告诉外人，已经知道一些真相，静静等待",
+				"逆位女教皇，代表嫉妒，失去理智，胡思乱想，需要宁静",
+				"正位皇帝，代表能力，想控制别人或操纵一些事物，控制欲过强，实现一些愿望",
+				"逆位皇帝，代表自大，暴怒，有决心，需要谦虚",
+
+                "正位教皇，代表实力，非常聪明和理性，正确的直觉",
+				"逆位教皇，代表背弃信仰，放弃初心，改变了想法，需要反省",
+				"正位恋人，代表和谐的恋爱关系，发自内心的喜欢",
+				"逆位恋人，代表有私欲的恋爱关系，出于色或钱等等，需要认真对待",
+				"正位战车，代表准备充分，意志坚定，有信心完成某些目标",
+				"逆位战车，代表固执，不愿改变和接收新事物，需要转变思维",
+				"正位力量，代表实力，身体健康，拥有足够的本领应对",
+				"逆位力量，代表方向错误，欺负弱小，需要收敛",
+				"正位隐者，代表静静观察局势，进行思考和反思",
+				"逆位隐者，代表避世，不愿继续争斗，不愿意深入思考，即使有希望改变，需要积极",
+				"正位命运之轮，代表因果，善有善报，因为过去的事情影响现在",
+				"逆位命运之轮，代表因果，恶有恶报，因为过去的事情影响现在",
+				"正位正义，代表放弃私欲，出于客观理性的角度",
+				"逆位正义，代表偏袒一方，有私欲，需要勇敢",
+				"正位倒吊人，代表修行，奉献有爱心，善举",
+				"逆位倒吊人，代表装模做样，假意和欺骗，迷惑众人，也代表思维或记忆混乱，需要冷静",
+				"正位死神，代表一件事情的结束，不要再去想了",
+				"逆位死神，代表漫长复杂的结束，纠结反复，想结束但漫长",
+				"正位节制，代表平衡，有得有失，不必过于开心或悲伤",
+				"逆位节制，代表失去平衡，放纵欲望，没有观察到更深更远的内容",
+				"正位恶魔，代表渴望力量，渴望尊重，渴望快乐，不择手段",
+				"逆位恶魔，代表发现错误，寻找改变",
+				"正位高塔，代表突然发生的事情，缺乏准备和合理应对",
+				"逆位高塔，代表一个不符合实际的想法，不过正在改变",
+				"正位星星，代表贵人，希望，也需要自身努力",
+				"逆位星星，代表失去希望，缺乏帮助，但是依然有希望",
+				"正位月亮，代表阴性，深藏内心的想法和秘密，也代表即将发生事情出现了预兆和提示，注意观察，相信直觉",
+				"逆位月亮，代表背后和不易察觉的地方有人搞小动作，和不容易被发现的错误",
+				"正位太阳，代表经历磨难，即将成功",
+				"逆位太阳，代表强弩之末，可能突然向坏的方向改变，小心谨慎可以避免",
+				"正位审判，代表考试面试或者去新的地方，有希望成功，遇见更好的人",
+				"逆位审判，代表考试或面试失利或某一次见面失利，无法录取或者如愿，需要更加努力",
+				"正位世界，代表选择，正确的选择",
+				"逆位世界，代表错误的选择，需要三思",
+
+			];
+    var lastIndex = -1;
+    var outputDone = true;
+    var outputCount = 0;
+    var clickCount = 0;
+    var outputIndex = 0;
+    var outputCounts = {};
+    
+    function getRandomIndex() {
+      // 生成一个随机索引
+      var index = Math.floor(Math.random() * texts.length);
+      // 如果随机索引等于上一次的索引或之前输出过的索引，重新生成
+      while (index === lastIndex || document.getElementById("text").innerHTML.indexOf(texts[index]) !== -1) {
+        index = Math.floor(Math.random() * texts.length);
+      }
+      return index;
+    }
+    
+    function addNewLine() {
+		if (clickCount == 0) {
+				alert("单张牌占卜，一张牌代表一件事");
+				
+			}
+			if (clickCount == 1) {
+				alert("两张牌占卜，第一张代表自己，第二张代表对方");
+			}
+			if (clickCount == 2) {
+				alert("三张牌占卜，第一张过去，第二张代表现在，第三张代表未来");
+			}
+			if (clickCount == 3) {
+				alert("四张牌占卜，第四张代表原因");
+			}
+			if (clickCount == 4) {
+				alert("五张牌占卜，第五张代表环境和客观因素");
+			}
+			if (clickCount== 5) {
+				alert("六张牌占卜，第六张牌代表对策和建议");
+			}
+			if ( clickCount== 6) {
+				alert("七张牌占卜，从第一张牌开始，分别代表周一到周天的七天");
+			}
+			if (clickCount >= 9) {
+				alert("已经超出最大值，刷新网页重来");
+				return;
+			}
+      
+      // 如果点击次数超过三次，触发警报
+      if (clickCount > 8) {
+        alert("已经到达最大值，请刷新重来");
+        
+        return;
+      }
+      if (!outputDone) {
+        // 如果上一句话没有输出完毕，直接返回
+        return;
+      }
+      if (lastIndex !== -1) {
+        document.getElementById("text").lastChild.innerHTML = " 第" + outputIndex + "张牌："+ texts[lastIndex] ;
+        outputCounts[lastIndex]++;
+      }
+      var newLine = document.createElement("p");
+      document.getElementById("text").appendChild(newLine);
+      var index = getRandomIndex();
+      var text = texts[index];
+      var index2 = 0;
+      outputDone = false;
+      outputIndex++;
+      outputCounts[index] = 1;
+      var timer = setInterval(function() {
+        var output = text.substring(0, index2 + 1);
+        document.getElementById("text").lastChild.innerHTML = " 第" + outputIndex + "张牌：" +output ;
+        index2++;
+        if (output === text) {
+          clearInterval(timer);
+          outputDone = true;
+          lastIndex = index;
+          outputCount++;
+		  clickCount++;
+          // 如果输出超过两句，触发警报
+        
+        }
+      }, 100);
+    }
+  </script>
+</head>
+<body>
+	<h1>LS塔罗</h1>
+  <div id="button-wrapper">
+    <button id="button" onclick="addNewLine()">抽一张牌</button>
+  </div>
+  <div id="text">
+    <p></p>
+  </div>
+</body>
+</html>
