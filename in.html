@@ -3,20 +3,22 @@
 <head>
   <title>File Search</title>
   <script>
-    const dir = new File([""], ".");
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", ".");
-    xhr.onload = function() {
-      const files = xhr.responseXML.getElementsByTagName("a");
-      const fileList = document.getElementById("fileList");
-      for (let i = 0; i < files.length; i++) {
-        const fileName = files[i].textContent;
-        const listItem = document.createElement("li");
-        listItem.textContent = fileName;
-        fileList.appendChild(listItem);
-      }
-    };
-    xhr.send();
+    const apiUrl = ".";
+
+    fetch(apiUrl)
+      .then(response => response.json())
+      .then(data => {
+        const fileList = document.getElementById("fileList");
+        for (let i = 0; i < data.files.length; i++) {
+          const fileName = data.files[i];
+          const listItem = document.createElement("li");
+          listItem.textContent = fileName;
+          fileList.appendChild(listItem);
+        }
+      })
+      .catch(error => {
+        console.log(`Error: ${error}`);
+      });
   </script>
 </head>
 <body>
