@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>File Search</title>
+  <script>
+    const dir = new File([""], ".");
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", ".");
+    xhr.onload = function() {
+      const files = xhr.responseXML.getElementsByTagName("a");
+      const fileList = document.getElementById("fileList");
+      for (let i = 0; i < files.length; i++) {
+        const fileName = files[i].textContent;
+        const listItem = document.createElement("li");
+        listItem.textContent = fileName;
+        fileList.appendChild(listItem);
+      }
+    };
+    xhr.send();
+  </script>
+</head>
+<body>
+  <h1>File Search Results</h1>
+  <ul id="fileList"></ul>
+</body>
+</html>
