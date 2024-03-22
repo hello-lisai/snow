@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小六壬</title>
+<style>
+  body {
+  text-align: center; /* 页面文本居中 */
+  
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* 保持背景图片固定在视口 */
+    background-color: #FFFFE0;
+}
+.container {
+  /* 允许卡片换行 */
+  display: block; 
+  flex-wrap: wrap; /* 允许卡片换行 */
+  justify-content: center;
+  gap: 20px; /* 设置卡片之间的间隔 */
+}
+
+
+.flip-card {
+  display: block; /* 每个卡片独占一行 */
+  background-color: transparent;
+  width: 200px;
+  height: 70px; /* 修改高度为200px */
+  perspective: 1000px; /* 视角距离 */
+  margin: 10px auto; /* 设置卡片之间的外边距并水平居中 */
+  cursor: pointer; /* 鼠标指针样式为手型 */
+  position: relative;
+  border-radius: 100px; /* 添加弧度边角 */
+}
+
+
+
+.card-message {
+    left: 20px;
+    text-align: center;
+   
+  
+}
+
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg); /* 翻转180度 */
+}
+
+.flip-card-front, .flip-card-back {
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* 隐藏背面 */
+}
+
+.flip-card-front {
+  text-align: center;
+  background-color: #3498db;
+  color: #fff;
+  border-radius: 100px; /* 添加弧度边角 */
+  align-items: center; 
+  display: flex; /* 内容上下排列 */
+  justify-content: center;
+  word-wrap: break-word;
+  
+}
+
+.flip-card-back {
+  background-color: #284476;
+  color: #fff;
+  transform: rotateY(180deg); /* 初始状态-翻转180度 */
+  display: flex; /* 内容上下排列 */
+  justify-content: center;
+  align-items: center; /* 垂直居中 */
+  word-wrap: break-word; /* 字数过多时换行 */
+  border-radius: 100px; /* 添加弧度边角 */
+}
+
+</style>
+</head>
+<body>
+  <h1>小六壬</h1>
+  
+<div class="container">
+  
+  <div class="flip-card" data-card="1">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <h1>1</h1>
+      </div>
+      <div class="flip-card-back" id="backContent1">
+        <h1></h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-card="2">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <h1>2</h1>
+      </div>
+      <div class="flip-card-back" id="backContent2">
+        <h1></h1>
+      </div>
+    </div>
+  </div>
+
+  <div class="flip-card" data-card="3">
+    <div class="flip-card-inner">
+      <div class="flip-card-front">
+        <h1>3</h1>
+      </div>
+      <div class="flip-card-back" id="backContent3">
+        <h1></h1>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="card-message" id="cardMessage"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const cards = document.querySelectorAll('.flip-card');
+  const cardMessage = document.getElementById('cardMessage');
+  
+ 
+  cards.forEach(card => {
+    card.addEventListener('click', function() {
+      const cardNumber = this.getAttribute('data-card');
+      const backContent = this.querySelector('.flip-card-back h1').innerText;
+      let positionMessage = "";
+
+      switch (cardNumber) {
+        case '1':
+          positionMessage = "表示事情的开始的状态";
+          break;
+        case '2':
+          positionMessage = "表示事情发展的过程";
+          break;
+        case '3':
+          positionMessage = "表示事情的结局和影响";
+          break;
+        default:
+          break;
+      }
+      
+      if (backContent.trim() === '大安') {
+        cardMessage.innerText = `次序为${cardNumber}，内容是：${backContent}`+"。代表如意，顺利，没有问题，无需多虑。" + positionMessage;
+      } else if (backContent.trim() === '留连') {
+        cardMessage.innerText = `次序为${cardNumber}，内容是：${backContent}`+"。代表反复，变化缓慢，进度缓慢，效果不明显，无清晰有序的思绪。" + positionMessage;
+      } else if (backContent.trim() === '速喜') {
+        cardMessage.innerText = `次序为${cardNumber}，内容是：${backContent}`+"。代表快速变化，不稳定，不长久，没把握，情绪兴奋。" + positionMessage;
+      }else if (backContent.trim() === '赤口') {
+        cardMessage.innerText = `次序为${cardNumber}，内容是：${backContent}`+"。代表情绪愤怒，抱怨，不安，容易把事情的发展带向不稳定的一面。" + positionMessage;
+      }else if (backContent.trim() === '小吉') {
+        cardMessage.innerText = `次序为${cardNumber}，内容是：${backContent}`+"。代表吉，平安，有小收获。" + positionMessage;
+      }else if (backContent.trim() === '空亡') {
+        cardMessage.innerText = `次序为${cardNumber}，内容是：${backContent}`+"。代表落空，失去，离开，白白浪费时间，但是测小病，小事情无碍。" + positionMessage;
+      }
+      
+      //cardMessage.innerText += `翻开的是第${cardNumber}牌，内容是：${backContent}`;
+    });
+  });
+
+  const quotes = [
+    "大安", "赤口","小吉","空亡","留连","速喜"
+  ];
+
+  cards.forEach(card => {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const backContent = card.querySelector('.flip-card-back h1');
+    backContent.innerText = quotes[randomIndex];
+  });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
